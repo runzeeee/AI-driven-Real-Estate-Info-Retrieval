@@ -7,7 +7,10 @@ const propertyController = require('./controllers/propertyController');
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'https://ai-driven-real-estate-info-retrieval.onrender.com',
+  ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
