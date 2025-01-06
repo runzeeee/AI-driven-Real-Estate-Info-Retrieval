@@ -9,10 +9,11 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://ai-driven-real-estate-info-retrieval.onrender.com',
+    'https://ai-driven-real-estate-info-retrieval-k51s.onrender.com'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
+  credentials: true
 }));
 app.use(express.json());
 
