@@ -28,9 +28,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ data }) => {
           Market Overview
         </Typography>
         <Divider sx={{ mb: 2 }} />
-        <Typography variant="body1" paragraph>{data.propertyOverview.marketStatus}</Typography>
-        <Typography variant="body1" paragraph>{data.propertyOverview.averagePrices}</Typography>
-        <Typography variant="body1" paragraph>{data.propertyOverview.houseTypes}</Typography>
+        <Typography variant="body1" >{data.propertyOverview.marketStatus}</Typography>
+        <Typography variant="body1" >{data.propertyOverview.averagePrices}</Typography>
+        <Typography variant="body1" >{data.propertyOverview.houseTypes}</Typography>
       </ContentSection>
 
       <ContentSection>
