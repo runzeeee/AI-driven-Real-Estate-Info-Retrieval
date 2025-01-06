@@ -8,6 +8,14 @@ This project is an application designed to accept a home address as input and le
 - **Detailed Property Information**: Specifics such as size, number of rooms, and estimated value.
 - **List of Nearby Schools**: Relevant details including names, distances, and ratings of nearby educational institutions.
 
+
+## Deployment
+
+The application is deployed on Render:
+- **Frontend**: [Live Demo](https://ai-driven-real-estate-info-retrieval-k51s.onrender.com/)
+- **Backend**: Deployed as a separate service on Render.
+
+
 ## Getting Started
 
 ### Prerequisites
@@ -18,9 +26,34 @@ To set up and run the project locally, ensure you have the following:
 - **OpenAI API key**
 - **Pinecone API key**
 
+### How to Run
+
+### Environment Setup
 > **Note**: All `.env` files containing API keys can be obtained by contacting the repository author.
 
-### How to Run
+#### Frontend Configuration
+Create a `.env` file in the `real-estate-frontend` directory:
+```env
+# real-estate-frontend/.env.local
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+```
+
+#### Backend Configuration
+Create a `.env` file in the `real-estate-backend` directory:
+```env
+# real-estate-backend/.env
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+OPENAI_API_KEY=your_openai_api_key
+PINECONE_API_KEY=your_pinecone_api_key
+PINECONE_ENVIRONMENT=us-east1-aws
+PINECONE_INDEX_NAME=real-estate-index-1536
+```
+
+> **Important Security Note**: 
+> - Never commit your actual API keys to version control
+> - Keep your `.env` files private
+> - Contact repository maintainers for actual API keys if needed
 
 #### Frontend
 1. Navigate to the `real-estate-frontend` directory:
@@ -128,11 +161,6 @@ The project uses **Pinecone** as its vector database, storing embeddings for:
    - Key test cases:
       - Validate user input for various edge cases (e.g., incomplete or incorrect addresses).
 
-## Deployment
-
-The application is deployed on Render:
-- **Frontend**: [Live Demo](https://ai-driven-real-estate-info-retrieval-k51s.onrender.com/)
-- **Backend**: Deployed as a separate service on Render.
 
 ## Assumptions and Limitations
 
