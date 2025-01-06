@@ -103,7 +103,7 @@ PINECONE_INDEX_NAME=real-estate-index-1536
 
 ### Backend
 - **Node.js** with Express
-- **OpenAI API** (GPT-3.5 Turbo & `text-embedding-ada-002`)
+- **OpenAI API** (GPT-3.5 Turbo & `Text-embedding-3-small`)
 - **Pinecone Vector Database**
 - **Google Maps Services** for geocoding
 - **CORS** for cross-origin resource sharing
@@ -134,7 +134,7 @@ The project uses **Pinecone** as its vector database, storing embeddings for:
    - Standardize ZIP code formats.
    - Generate descriptive fields necessary for embedding generation.
 2. **Embedding Generation**:
-   - Use OpenAI's `text-embedding-ada-002` model to create semantic embeddings from property descriptions.
+   - Use OpenAI's `Text-embedding-3-small` model to create semantic embeddings from property descriptions.
 3. **Batch Upload to Pinecone**:
    - Upload embeddings along with metadata in batches.
 4. **Query Optimization**:
