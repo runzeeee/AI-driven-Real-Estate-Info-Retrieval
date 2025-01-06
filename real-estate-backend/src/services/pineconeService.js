@@ -25,7 +25,6 @@ exports.query = async (embedding) => {
       includeMetadata: true,
     });
 
-    console.log("Pinecone query response:", queryResponse);
 
     const properties = queryResponse.matches
       .filter((match) => match.id.startsWith("re_"))

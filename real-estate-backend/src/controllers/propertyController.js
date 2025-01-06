@@ -45,43 +45,140 @@ exports.getPropertyDetails = async (req, res) => {
     // Generate final response using ChatGPT
     const messages = [
       {
-        role: 'system',
-        content: 'You are a real estate assistant that generates detailed property and nearby school information based on the provided data.',
+        role: "system",
+        content: `
+          You are a real estate assistant. Your task is to generate a structured JSON response containing property and nearby school information based on the provided data. 
+          Ensure the JSON structure is consistent, easy to parse, and includes all necessary fields for frontend display.
+        `,
       },
       {
-        role: 'user',
+        role: "user",
         content: `
-          The user has provided the following address: ${address}, located at Latitude: ${coordinates.lat}, Longitude: ${coordinates.lng}.
-
+          The user has provided the following address: ${address}, located at Latitude: ${
+          coordinates.lat
+        }, Longitude: ${coordinates.lng}.
+    
           Here are the relevant property listings retrieved from Pinecone:
           ${similarData.properties
             .map(
               (prop, idx) =>
-                `${idx + 1}. Price: $${prop.price}, Bedrooms: ${prop.bed}, Bathrooms: ${prop.bath}, City: ${prop.city}, State: ${prop.state}, ZIP Code: ${prop.zip_code}, House Size: ${prop.house_size} sq ft, Description: ${prop.description}`
+                `${idx + 1}. Price: $${prop.price}, Bedrooms: ${
+                  prop.bed
+                }, Bathrooms: ${prop.bath}, City: ${prop.city}, State: ${
+                  prop.state
+                }, ZIP Code: ${prop.zip_code}, House Size: ${
+                  prop.house_size
+                } sq ft, Description: ${prop.description}`
             )
-            .join('\n')}
-
+            .join("\n")}
+    
           Additionally, here are the nearby schools:
           ${schoolsWithDistance
             .map(
               (school, idx) =>
-                `${idx + 1}. Name: ${school.name}, City: ${school.city}, State: ${school.state}, ZIP Code: ${school.zip_code}, Distance: ${school.distance.toFixed(
-                  2
-                )} km, Description: ${school.description}`
+                `${idx + 1}. Name: ${school.name}, City: ${
+                  school.city
+                }, State: ${school.state}, ZIP Code: ${
+                  school.zip_code
+                }, Distance: ${school.distance.toFixed(2)} km, Description: ${
+                  school.description
+                }`
             )
-            .join('\n')}
-
-          Based on the above information, please provide:
-          1. **Property Overview**: A brief summary of the property's market status, including average prices and types of houses available.
-          2. **Detailed Property Information**: A list of the most relevant properties with detailed information such as price, number of bedrooms and bathrooms, house size, etc.
-          3. **Nearby Schools**: A list of the nearest 5 schools, including their names, types (public or private), distance, and ratings (if available).
-
-          Please respond in English, ensuring the content is clear, concise, and well-structured, highlighting key information.
+            .join("\n")}
+    
+          Based on the above information, generate a JSON response in the following format:
+    
+          {
+            "propertyOverview": {
+              "marketStatus": "<brief summary of the property market>",
+              "averagePrices": "<average property prices in the area>",
+              "houseTypes": "<types of houses available>"
+            },
+            "detailedProperties": [
+              {
+                "propertyName": "<name or description of the property>",
+                "price": <price>,
+                "bedrooms": <number of bedrooms>,
+                "bathrooms": <number of bathrooms>,
+                "houseSizeSqFt": <size of the house in square feet>,
+                "description": "<short description of the property>",
+                "location": {
+                  "city": "<city>",
+                  "state": "<state>",
+                  "zipCode": "<ZIP code>"
+                }
+              }
+              // Additional properties...
+            ],
+            "nearbySchools": [
+              {
+                "name": "<name of the school>",
+                "type": "<public or private>",
+                "distanceMiles": <distance in miles>,
+                "rating": <rating if available>
+              }
+              // Additional schools...
+            ]
+          }
+          Here is a sample output:
+            {
+              "propertyOverview": {
+                "marketStatus": "The market around 2656 W El Camino Real is active with a diverse range of housing options.",
+                "averagePrices": "Average property prices in neighboring areas range from $728,000 to $2,850,000.",
+                "houseTypes": "Houses typically feature 2 to 4 bedrooms and 2 to 3 bathrooms."
+              },
+              "detailedProperties": [
+                {
+                  "propertyName": "Property 1 - Mountain View, CA",
+                  "price": 728000,
+                  "bedrooms": 2,
+                  "bathrooms": 2,
+                  "houseSizeSqFt": 960,
+                  "description": "2-bed, 2-bath property in Mountain View, CA, ZIP 94043.",
+                  "location": {
+                    "city": "Mountain View",
+                    "state": "CA",
+                    "zipCode": "94043"
+                  }
+                },
+                {
+                  "propertyName": "Property 2 - Santa Clara, CA",
+                  "price": 1399950,
+                  "bedrooms": 3,
+                  "bathrooms": 2,
+                  "houseSizeSqFt": 1390,
+                  "description": "3-bed, 2-bath property in Santa Clara, CA, ZIP 95050.",
+                  "location": {
+                    "city": "Santa Clara",
+                    "state": "CA",
+                    "zipCode": "95050"
+                  }
+                }
+                // ... other properties
+              ],
+              "nearbySchools": [
+                {
+                  "name": "Castro Elementary School",
+                  "type": "Public",
+                  "distanceMiles": 1.2,
+                  "rating": 8
+                },
+                {
+                  "name": "Los Altos High School",
+                  "type": "Public",
+                  "distanceMiles": 1.4,
+                  "rating": 9
+                }
+                // ... other schools
+              ]
+            }
+          Ensure the response is formatted correctly for a JSON parser and only includes fields relevant to the provided data.
         `,
       },
     ];
-    const finalResponse = await openaiService.generateResponse(messages);
 
+    const finalResponse = await openaiService.generateResponse(messages);
+    console.log("Final response:", finalResponse);
     res.json(finalResponse);
   } catch (error) {
     console.error("Error in getPropertyDetails:", error);

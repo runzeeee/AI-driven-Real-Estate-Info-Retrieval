@@ -1,4 +1,4 @@
-import { Typography, Box, Paper, Divider } from '@mui/material';
+import { Typography, Box, Paper, Divider, Grid, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PropertyResponse } from '../utils/api';
 
@@ -17,37 +17,64 @@ const ContentSection = styled(Box)(({ theme }) => ({
 }));
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({ data }) => {
-  // Parse the overview text to extract sections
-  const sections = data.overview.split('\n\n').filter(Boolean);
-
   return (
     <StyledPaper elevation={3}>
       <Typography variant="h5" gutterBottom>
         Property Analysis Report
       </Typography>
 
-      {sections.map((section, index) => {
-        // Check if section is a header (starts with **)
-        const isHeader = section.startsWith('**');
-        const content = isHeader ? section.replace(/\*\*/g, '') : section;
+      <ContentSection>
+        <Typography variant="h6" color="primary" gutterBottom>
+          Market Overview
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+        <Typography variant="body1" paragraph>{data.propertyOverview.marketStatus}</Typography>
+        <Typography variant="body1" paragraph>{data.propertyOverview.averagePrices}</Typography>
+        <Typography variant="body1" paragraph>{data.propertyOverview.houseTypes}</Typography>
+      </ContentSection>
 
-        return (
-          <ContentSection key={index}>
-            {isHeader ? (
-              <>
-                <Typography variant="h6" color="primary" gutterBottom>
-                  {content}
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-              </>
-            ) : (
-              <Typography variant="body1" paragraph>
-                {content}
-              </Typography>
-            )}
-          </ContentSection>
-        );
-      })}
+      <ContentSection>
+        <Typography variant="h6" color="primary" gutterBottom>
+          Detailed Properties
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+        <Grid container spacing={2}>
+          {data.detailedProperties.map((property, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>{property.propertyName}</Typography>
+                  <Typography variant="body1">Price: ${property.price.toLocaleString()}</Typography>
+                  <Typography variant="body1">{property.bedrooms} beds, {property.bathrooms} baths</Typography>
+                  <Typography variant="body1">{property.houseSizeSqFt} sq ft</Typography>
+                  <Typography variant="body2" color="text.secondary">{property.description}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </ContentSection>
+
+      <ContentSection>
+        <Typography variant="h6" color="primary" gutterBottom>
+          Nearby Schools
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+        <Grid container spacing={2}>
+          {data.nearbySchools.map((school, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>{school.name}</Typography>
+                  <Typography variant="body1">Type: {school.type}</Typography>
+                  <Typography variant="body1">Distance: {school.distanceMiles} miles</Typography>
+                  <Typography variant="body1">Rating: {school.rating}/10</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </ContentSection>
     </StyledPaper>
   );
 };

@@ -30,11 +30,8 @@ exports.generateResponse = async (messages) => {
 
   const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages: messages
+    messages: messages,
+    response_format: { type: "json_object" },
   });
-
-  return {
-    overview: completion.choices[0].message.content,
-    details: messages,
-  };
+  return completion.choices[0].message.content;
 }; 
