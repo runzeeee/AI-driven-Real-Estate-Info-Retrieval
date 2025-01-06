@@ -1,9 +1,10 @@
 import { Paper, InputBase, IconButton, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import { validateAddress } from "../utils/validation";
 import ErrorMessage from "./ErrorMessage";
+import debounce from "lodash/debounce";
 
 interface SearchBarProps {
   onSubmit: (address: string) => void;
@@ -12,46 +13,55 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
   const [error, setError] = useState<string | null>(null);
   const [address, setAddress] = useState("");
-  const [autocomplete, setAutocomplete] =
-    useState<google.maps.places.Autocomplete | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
 
   useEffect(() => {
-    if (window.google?.maps) {
-      console.log("Google Maps API loaded successfully");
-      setIsLoaded(true);
-    } else {
+    if (!window.google?.maps) {
       console.error("Google Maps API not loaded");
     }
   }, []);
 
   const onLoad = (autocompleteInstance: google.maps.places.Autocomplete) => {
-    console.log("Autocomplete component loaded");
     setAutocomplete(autocompleteInstance);
   };
 
   const onPlaceChanged = () => {
-    console.log("Place changed event triggered");
     if (autocomplete) {
       const place = autocomplete.getPlace();
-      console.log("Selected place:", place);
       if (place?.formatted_address) {
         setAddress(place.formatted_address);
-        onSubmit(place.formatted_address);
+        setError(null);
+      } else {
+        setError("Please enter a valid address");
       }
     }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     if (!validateAddress(address)) {
       setError("Please enter a valid address");
       return;
     }
-
     setError(null);
     onSubmit(address);
+  };
+
+  const debouncedValidate = useCallback(
+    debounce((value: string) => {
+      if (!validateAddress(value)) {
+        setError("Please enter a valid address");
+      } else {
+        setError(null);
+      }
+    }, 300),
+    []
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setAddress(inputValue);
+    debouncedValidate(inputValue);
   };
 
   return (
@@ -66,7 +76,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
           mb: error ? 1 : 3,
         }}
       >
-
         <Box sx={{ width: "100%" }}>
           <Autocomplete
             onLoad={onLoad}
@@ -76,21 +85,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
               componentRestrictions: { country: "us" },
             }}
           >
-     
             <InputBase
               sx={{
                 ml: 1,
                 flex: 1,
                 width: "100%",
                 "& input": {
-                  width: "100%", 
+                  width: "100%",
                   padding: "8px 0",
                 },
               }}
               placeholder="Enter property address..."
               name="address"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={handleInputChange}
               inputProps={{ "aria-label": "search property address" }}
             />
           </Autocomplete>
@@ -99,6 +107,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
           <SearchIcon />
         </IconButton>
       </Paper>
+      {error && <ErrorMessage message={error} />}
     </Box>
   );
 };
