@@ -26,24 +26,15 @@ exports.generateEmbedding = async (text) => {
   return response.data[0].embedding;
 };
 
-exports.generateResponse = async (data) => {
-  const prompt = `
-    Generate a detailed response about the property at ${data.address}.
-    Include information about:
-    1. Property location and coordinates
-    2. Similar properties in the area
-    3. Nearby schools (within 5 miles) sorted by distance
-    
-    Data: ${JSON.stringify(data)}
-  `;
+exports.generateResponse = async (messages) => {
 
   const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: prompt }]
+    messages: messages
   });
 
   return {
     overview: completion.choices[0].message.content,
-    details: data,
+    details: messages,
   };
 }; 
