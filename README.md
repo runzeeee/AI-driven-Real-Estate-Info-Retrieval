@@ -80,6 +80,12 @@ To set up and run the project locally, ensure you have the following:
 - **Google Maps Services** for geocoding
 - **CORS** for cross-origin resource sharing
 
+### RAG Implementation
+- **Retriever (Pinecone Vector Database)**: Stores semantic embeddings of real estate and school data, enabling fast and accurate similarity searches.
+- **Generator (OpenAI GPT)**: Processes retrieved data to generate user-friendly and informative responses.
+- **Integration**: Combines Google Maps API for geocoding with vector-based retrieval to ensure precise and relevant outputs.
+
+
 ### Data Processing
 - **Python** for data preprocessing
 - **Pandas** for dataset manipulation
@@ -114,14 +120,13 @@ The project uses **Pinecone** as its vector database, storing embeddings for:
 ## Testing
 
 - **Frontend Testing**:
-  - Run Jest tests:
+   - Run Jest tests:
     ```bash
     cd real-estate-frontend
     npm run test
     ```
-
-- **API Endpoint Testing**:
-  - Test API routes using Postman or custom test utilities.
+   - Key test cases:
+      - Validate user input for various edge cases (e.g., incomplete or incorrect addresses).
 
 ## Deployment
 
@@ -132,7 +137,7 @@ The application is deployed on Render:
 ## Assumptions and Limitations
 
 - **Sampled Dataset**: The original dataset is too large to process; sampling methods are used for demonstration purposes.
-- **US Addresses Only**: Currently supports addresses within the United States.
+- **US Addresses Only**: Assume the service only supports addresses within the United States.
 - **API Reliability**: Relies on the consistent performance of external APIs (Google Maps, OpenAI) for geocoding and AI functionalities.
 - **Rate Limits**: External APIs are subject to rate limits.
 
@@ -177,12 +182,6 @@ The application is deployed on Render:
 
 ### Data Infrastructure (Pinecone)
 - Stores and manages vector embeddings for efficient similarity searches and data retrieval.
-
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 - **USA Real Estate Dataset** from Kaggle
