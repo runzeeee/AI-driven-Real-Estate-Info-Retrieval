@@ -18,7 +18,7 @@ To set up and run the project locally, ensure you have the following:
 - **OpenAI API key**
 - **Pinecone API key**
 
-> **Note**: All `.env` files containing API keys must be obtained by contacting the repository author.
+> **Note**: All `.env` files containing API keys can be obtained by contacting the repository author.
 
 ### How to Run
 
