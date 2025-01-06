@@ -31,7 +31,7 @@ const Home = () => {
           Real Estate Information Retrieval
         </Typography>
         <Typography variant="subtitle1" gutterBottom align="center" color="text.secondary">
-          Enter an address to get detailed property information and nearby amenities
+          Enter an address to get detailed property information and nearby schools
         </Typography>
         
         <Box mt={4}>
