@@ -31,15 +31,15 @@ To set up and run the project locally, ensure you have the following:
 ### Environment Setup
 > **Note**: All `.env` files containing API keys can be obtained by contacting the repository author.
 
-#### Frontend Configuration
+#### Frontend Configuration Example
 Create a `.env` file in the `real-estate-frontend` directory:
 ```env
-# real-estate-frontend/.env.local
-NEXT_PUBLIC_API_URL=http://localhost:3001/api
+# real-estate-frontend/.env
+NEXT_PUBLIC_API_URL=https://your_backend_api_url/api
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 ```
 
-#### Backend Configuration
+#### Backend Configuration Example
 Create a `.env` file in the `real-estate-backend` directory:
 ```env
 # real-estate-backend/.env
