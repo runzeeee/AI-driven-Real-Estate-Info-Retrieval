@@ -50,11 +50,6 @@ PINECONE_ENVIRONMENT=us-east1-aws
 PINECONE_INDEX_NAME=real-estate-index-1536
 ```
 
-> **Important Security Note**: 
-> - Never commit your actual API keys to version control
-> - Keep your `.env` files private
-> - Contact repository maintainers for actual API keys if needed
-
 #### Frontend
 1. Navigate to the `real-estate-frontend` directory:
    ```bash
