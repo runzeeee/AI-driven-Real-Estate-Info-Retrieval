@@ -126,7 +126,7 @@ PINECONE_INDEX_NAME=real-estate-index-1536
 - Coordinate transformation utilities
 
 ## Data Infrastructure
-For detailed steps and code related to the data processing pipeline, refer to the accompanying file: [AI_Real_Estate_Pinecone_Indexing1536.ipynb](https://github.com/runzeeee/AI-driven-Real-Estate-Info-Retrieval/blob/main/AI_Real_Estate_Pinecone_Indexing1536.ipynb).
+For detailed steps and code related to the Vector Database Setup and the data processing pipeline, refer to the accompanying file: [AI_Real_Estate_Pinecone_Indexing1536.ipynb](https://github.com/runzeeee/AI-driven-Real-Estate-Info-Retrieval/blob/main/AI_Real_Estate_Pinecone_Indexing1536.ipynb).
 
 ### Vector Database Setup
 The project uses **Pinecone** as its vector database, storing embeddings for:
